@@ -1,6 +1,7 @@
 # SheetDiff
 
-[![tests](https://github.com/YOUR_USERNAME/sheetdiff/actions/workflows/tests.yml/badge.svg)](https://github.com/YOUR_USERNAME/sheetdiff/actions/workflows/tests.yml)
+
+[![tests](https://github.com/vishnurdev/sheetdiff/actions/workflows/tests.yml/badge.svg)](https://github.com/vishnurdev/sheetdiff/actions/workflows/tests.yml)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
@@ -25,7 +26,7 @@ Built for anyone who validates spreadsheets by hand: rate tables, price lists, i
 ## Quick start
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/sheetdiff.git
+git clone https://github.com/vishnurdev/sheetdiff.git
 cd sheetdiff
 pip install -e .
 
