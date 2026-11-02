@@ -1,0 +1,9 @@
+rate_id,state,coverage,base_rate,deductible,factor
+R1001,TX,Dwelling,412.50,1000,1.00
+R1002,TX,Personal Property,128.00,500,0.85
+R1003,TX,Liability,64.25,0,1.10
+R1004,CA,Dwelling,538.00,1000,1.15
+R1005,CA,Personal Property,149.75,500,0.90
+R1006,CA,Liability,71.00,0,1.05
+R1007,FL,Dwelling,689.40,2500,1.30
+R1008,FL,Water Backup,45.00,250,1.00

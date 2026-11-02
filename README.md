@@ -1,2 +1,124 @@
-# sheetdiff
-Compare and validate Excel/CSV files with clear difference reports
+# SheetDiff
+
+[![tests](https://github.com/YOUR_USERNAME/sheetdiff/actions/workflows/tests.yml/badge.svg)](https://github.com/YOUR_USERNAME/sheetdiff/actions/workflows/tests.yml)
+![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+
+**Compare two Excel or CSV files and instantly see what was added, removed, or changed — with clean Excel and HTML reports.**
+
+Built for anyone who validates spreadsheets by hand: rate tables, price lists, inventory exports, finance reports, data migrations. What takes an hour of eyeballing takes SheetDiff one second.
+
+![SheetDiff HTML report](docs/report-screenshot.png)
+
+## Features
+
+- ✅ Compare **CSV, TSV, XLSX, XLS** — even an Excel file against a CSV
+- 🔑 Match rows by **one or more key columns** (e.g. `state` + `coverage`)
+- ➕➖ Detects **added**, **removed** and **changed** rows, cell by cell
+- 🔢 Numeric **tolerance** (ignore rounding noise like `0.004`)
+- 🔤 Optional **case-insensitive** text comparison
+- 📊 **Column totals** side by side: Old | New | New − Old
+- ⚠️ Flags **duplicate keys** and **columns missing** from either file
+- 📁 Reports as **Excel** (colour-coded sheets) and **HTML** (shareable, dark-mode ready)
+- 🤖 `--fail-on-diff` exit code for **CI pipelines** and automated QA checks
+
+## Quick start
+
+```bash
+git clone https://github.com/YOUR_USERNAME/sheetdiff.git
+cd sheetdiff
+pip install -e .
+
+sheetdiff samples/rates_2025.csv samples/rates_2026.csv --key rate_id --html report.html --excel report.xlsx
+```
+
+Output:
+
+```
+Rows added             : 1
+Rows removed           : 1
+Rows changed           : 4
+Result                 : DIFFERENCES FOUND
+
+Changed cells
+rate_id     Column rates_2025 rates_2026  Difference
+  R1001  base_rate      412.5      425.0       12.50
+  R1003     factor        1.1       1.12        0.02
+  R1004 deductible       1000       1500      500.00
+  R1006   coverage  Liability  liability         NaN
+```
+
+## Usage
+
+```bash
+# Multi-column key
+sheetdiff old.xlsx new.xlsx -k state -k coverage
+
+# Specific sheets, ignore tiny rounding differences
+sheetdiff old.xlsx new.xlsx -k id --left-sheet Rates --right-sheet Rates --tolerance 0.01
+
+# Ignore a column and text case
+sheetdiff old.csv new.csv -k id -x last_updated --ignore-case
+
+# Use in CI: exit code 1 if anything differs
+sheetdiff expected.csv actual.csv -k id --fail-on-diff
+```
+
+| Option | Description |
+|---|---|
+| `-k, --key` | Key column(s) that identify a row (repeatable) |
+| `--left-sheet / --right-sheet` | Sheet to read from each Excel file |
+| `-t, --tolerance` | Ignore numeric differences up to this amount |
+| `-i, --ignore-case` | Case-insensitive text comparison |
+| `-x, --ignore-column` | Skip a column (repeatable) |
+| `--excel PATH` / `--html PATH` | Save reports |
+| `--fail-on-diff` | Exit code 1 when differences exist |
+
+Exit codes: `0` no differences (or not checking), `1` differences found with `--fail-on-diff`, `2` input error.
+
+## Use it from Python
+
+```python
+from sheetdiff import compare_files, write_excel
+
+result = compare_files("old.xlsx", "new.xlsx", key=["state", "coverage"], tolerance=0.01)
+
+print(result.summary())
+print(result.changed)     # pandas DataFrame of changed cells
+write_excel(result, "diff_report.xlsx")
+```
+
+## Project structure
+
+```
+sheetdiff/
+├── sheetdiff/
+│   ├── core.py      # loading + comparison engine
+│   ├── report.py    # console, Excel and HTML reports
+│   └── cli.py       # command-line interface
+├── samples/         # demo data (fictional)
+├── tests/           # pytest suite
+└── .github/workflows/tests.yml   # CI on Python 3.10–3.12
+```
+
+## Running tests
+
+```bash
+pip install -e ".[dev]"
+pytest -v
+```
+
+## Roadmap
+
+- [ ] Compare all sheets in a workbook at once
+- [ ] Highlight changes directly in a copy of the new Excel file
+- [ ] Web UI (drag-and-drop two files)
+- [ ] Config file for saved comparison rules
+
+## Need something similar?
+
+I build custom data validation, Excel automation and QA tools. Feel free to open an issue or reach out via my GitHub profile.
+
+## License
+
+MIT — free to use and modify.

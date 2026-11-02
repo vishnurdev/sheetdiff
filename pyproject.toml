@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sheetdiff"
+version = "0.1.0"
+description = "Compare and validate Excel/CSV files with clear difference reports"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = ["pandas>=2.0", "openpyxl>=3.1"]
+keywords = ["excel", "csv", "diff", "compare", "data-validation", "qa"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Topic :: Office/Business :: Financial :: Spreadsheet",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[project.scripts]
+sheetdiff = "sheetdiff.cli:main"
+
+[tool.setuptools]
+packages = ["sheetdiff"]

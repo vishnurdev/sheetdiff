@@ -1,0 +1,2 @@
+[console_scripts]
+sheetdiff = sheetdiff.cli:main
